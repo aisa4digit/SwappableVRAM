@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <Target Name="BuildRustEngine" BeforeTargets="PrepareForBuild">
+    <Exec Command="cargo build --release --manifest-path &quot;$(MSBuildProjectDirectory)\..\..\native\Cargo.toml&quot;" />
+  </Target>
+  <ItemGroup>
+    <Content Include="../../native/target/release/swappable_vram_engine.dll" Link="swappable_vram_engine.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

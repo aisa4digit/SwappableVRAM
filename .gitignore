@@ -1,0 +1,12 @@
+**/bin/
+!native/src/bin/
+!native/src/bin/**
+**/obj/
+upstream/
+artifacts/
+.vs/
+*.user
+*.pfx
+*.p12
+native/target/
+drivers/**/target/

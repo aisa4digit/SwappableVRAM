@@ -1,0 +1,4 @@
+[target.x86_64-pc-windows-msvc]
+# The portable Rust engine must not require a separately installed VC redist.
+# The C ABI never transfers ownership of CRT allocations across the boundary.
+rustflags = ["-C", "target-feature=+crt-static"]

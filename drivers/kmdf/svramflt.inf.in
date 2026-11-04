@@ -1,0 +1,61 @@
+; Device-specific extension. No associated/function-driver service and no
+; DiskDrive class UpperFilters mutation. Template deliberately matches no
+; ordinary disk; lab packaging must bind one narrow, unique virtual-disk HWID.
+[Version]
+Signature="$WINDOWS NT$"
+Class=Extension
+ClassGuid={e2f84ce7-8efa-411c-aa69-97454ca4cb57}
+ExtensionId={72589ceb-7868-4dd7-b0bb-34d9ae449d41}
+Provider=%Provider%
+DriverVer=11/03/2026,0.1.0.0
+CatalogFile=svramflt.cat
+PnpLockdown=1
+
+[Manufacturer]
+%Provider%=Models,NTamd64.10.0...19041
+
+[Models.NTamd64.10.0...19041]
+%DeviceDesc%=SvramFilter,@@HARDWARE_ID@@
+
+[SvramFilter.NT]
+CopyFiles=DriverCopy
+
+[SvramFilter.NT.Filters]
+AddFilter=svramflt,,SvramUpper
+
+[SvramUpper]
+FilterPosition=Upper
+
+[SvramFilter.NT.Services]
+AddService=svramflt,,SvramService
+
+[SvramService]
+DisplayName=%ServiceDesc%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%13%\svramflt.sys
+
+[SvramFilter.NT.Wdf]
+KmdfService=svramflt,SvramWdf
+
+[SvramWdf]
+KmdfLibraryVersion=1.31
+
+[DestinationDirs]
+DriverCopy=13
+
+[DriverCopy]
+svramflt.sys
+
+[SourceDisksNames]
+1=%MediaDesc%,,,
+
+[SourceDisksFiles]
+svramflt.sys=1
+
+[Strings]
+Provider="SwappableVRAM development"
+DeviceDesc="SwappableVRAM isolated-lab disk filter"
+ServiceDesc="SwappableVRAM experimental paging cache"
+MediaDesc="SwappableVRAM development package"

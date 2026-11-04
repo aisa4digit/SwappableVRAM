@@ -1,0 +1,88 @@
+<Window x:Class="SwappableVRAM.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SwappableVRAM.App"
+        mc:Ignorable="d"
+        Title="SwappableVRAM • Windows geliştirme sürümü" Height="850" Width="1180" MinHeight="700" MinWidth="960"
+        Background="#0A111C" FontFamily="Segoe UI" FontSize="14" Foreground="#EAF0F7" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid Margin="28">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Grid>
+            <StackPanel><TextBlock Text="SWAPPABLE / VRAM" FontWeight="Bold" FontSize="25"/><TextBlock Text="Oyuna daha fazla RAM bırakmak için bellek katmanlama araştırması" Foreground="{StaticResource Muted}" Margin="0,7,0,0"/></StackPanel>
+            <Border HorizontalAlignment="Right" VerticalAlignment="Center" Background="#292514" CornerRadius="16" Padding="13,7"><TextBlock Text="●  Sistem offload henüz bağlı değil" Foreground="#E8CD7B" FontSize="12"/></Border>
+        </Grid>
+        <UniformGrid Grid.Row="1" Columns="3" Margin="0,25,0,20">
+            <Border Background="{StaticResource Panel}" CornerRadius="10" Padding="20" Margin="0,0,10,0"><StackPanel>
+                <TextBlock Text="FİZİKSEL RAM · BOŞ" Foreground="{StaticResource Muted}" FontSize="11"/>
+                <TextBlock x:Name="RamValue" Text="—" FontSize="29" FontWeight="SemiBold" Margin="0,7,0,4"/><TextBlock x:Name="RamDetail" Text="Ölçülüyor" Foreground="{StaticResource Muted}" FontSize="12"/>
+            </StackPanel></Border>
+            <Border Background="{StaticResource Panel}" CornerRadius="10" Padding="20" Margin="5,0,5,0"><StackPanel>
+                <TextBlock Text="GPU BELLEĞİ · BOŞ" Foreground="{StaticResource Muted}" FontSize="11"/>
+                <TextBlock x:Name="GpuValue" Text="—" FontSize="29" FontWeight="SemiBold" Margin="0,7,0,4"/><TextBlock x:Name="GpuDetail" Text="GPU aranıyor" Foreground="{StaticResource Muted}" FontSize="12"/>
+            </StackPanel></Border>
+            <Border Background="{StaticResource Panel}" CornerRadius="10" Padding="20" Margin="10,0,0,0"><StackPanel>
+                <TextBlock Text="SİSTEM COMMIT" Foreground="{StaticResource Muted}" FontSize="11"/>
+                <TextBlock x:Name="CommitValue" Text="—" FontSize="26" FontWeight="SemiBold" Margin="0,7,0,4"/><TextBlock Text="Fiziksel kullanım değildir · RAM + pagefile limiti" Foreground="{StaticResource Muted}" FontSize="11"/>
+            </StackPanel></Border>
+        </UniformGrid>
+        <TabControl Grid.Row="2" Background="Transparent" BorderThickness="0" Padding="0,18,0,0">
+            <TabItem Header="Oyun senaryosu"><Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="1.7*"/><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                <Border Background="{StaticResource Panel}" Padding="20" CornerRadius="10"><Grid>
+                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                    <TextBlock Text="Açık uygulamaların bellek görünümü" FontWeight="SemiBold" FontSize="18"/>
+                    <TextBlock Grid.Row="1" Text="CS2, Steam, ChatGPT, Claude, OBS, Discord ve Lightshot" Foreground="{StaticResource Muted}" Margin="0,6,0,15" FontSize="12"/>
+                    <DataGrid Grid.Row="2" x:Name="ProcessGrid" AutomationProperties.Name="Uygulamaların RAM kullanımı"><DataGrid.Columns>
+                        <DataGridTextColumn Header="Uygulama" Binding="{Binding Name}" Width="*"/><DataGridTextColumn Header="Süreç" Binding="{Binding Count}" Width="60"/>
+                        <DataGridTextColumn Header="Working set" Binding="{Binding WorkingSet}" Width="110"/><DataGridTextColumn Header="Private bytes" Binding="{Binding Private}" Width="110"/>
+                    </DataGrid.Columns></DataGrid>
+                    <TextBlock Grid.Row="3" Text="Working set paylaşılan sayfaları tekrar sayabilir. Private bytes, fiziksel RAM kullanımı değildir." TextWrapping="Wrap" Foreground="{StaticResource Muted}" FontSize="11" Margin="0,12,0,0"/>
+                </Grid></Border>
+                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel>
+                    <Border Background="{StaticResource Panel}" Padding="20" CornerRadius="10"><StackPanel>
+                        <TextBlock Text="Hedef: daha kararlı frametime" FontWeight="SemiBold" FontSize="17" TextWrapping="Wrap"/>
+                        <TextBlock Text="Arka planın soğuk sayfaları boş VRAM'e taşınacak; oyun RAM'de kalacak. Oyun VRAM istediğinde önbellek alanı geri verilecek." TextWrapping="Wrap" Foreground="#BFCDE0" Margin="0,13,0,16" LineHeight="22"/>
+                        <Border Background="#202B3B" Padding="12" CornerRadius="6"><TextBlock Text="Mevcut sürüm yalnızca ölçer. Windows uygulamalarının sayfalarını henüz VRAM'e taşımaz." TextWrapping="Wrap" Foreground="#E8CD7B" FontSize="12" LineHeight="20"/></Border>
+                        <TextBlock x:Name="LocalBackendDetail" Text="Bu bilgisayarın bellek bağlantısı kontrol ediliyor…" TextWrapping="Wrap" Foreground="{StaticResource Muted}" FontSize="12" LineHeight="19" Margin="0,12,0,0"/>
+                        <Button x:Name="BrokerCheckButton" Content="Yerel bağlantıyı denetle" Click="BrokerCheck_Click" Margin="0,12,0,0" AutomationProperties.AutomationId="CheckLocalBroker"/>
+                        <TextBlock x:Name="GameStatus" Text="CS2 durumu aranıyor" Margin="0,16,0,0" FontSize="12" TextWrapping="Wrap"/>
+                    </StackPanel></Border>
+                    <Border Background="{StaticResource Panel}" Padding="20" CornerRadius="10" Margin="0,16,0,0"><StackPanel>
+                        <TextBlock Text="Başlangıç oturumunu kaydet" FontWeight="SemiBold" FontSize="17"/>
+                        <TextBlock Text="RAM, GPU ve süreç verileri 2 saniyede bir kaydedilir. Frametime ölçümü içermez." TextWrapping="Wrap" Foreground="{StaticResource Muted}" FontSize="12" Margin="0,8,0,14" LineHeight="19"/>
+                        <Button x:Name="RecordButton" Content="Kaydı başlat" Click="Record_Click" AutomationProperties.AutomationId="RecordSession"/>
+                        <TextBlock x:Name="RecordStatus" Text="Kayıt kapalı" Foreground="{StaticResource Muted}" FontSize="12" Margin="0,10,0,0" TextWrapping="Wrap"/>
+                    </StackPanel></Border>
+                </StackPanel></ScrollViewer>
+            </Grid></TabItem>
+            <TabItem Header="Gecikme laboratuvarı" x:Name="LabTab"><Grid>
+                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <TextBlock Text="4 KiB rastgele erişim · QD1 · gerçek CUDA aktarımı" FontSize="19" FontWeight="SemiBold"/>
+                <Border Grid.Row="1" Background="{StaticResource Panel}" Padding="16" CornerRadius="10" Margin="0,14,0,15"><StackPanel>
+                    <WrapPanel>
+                        <StackPanel Width="115" Margin="0,0,18,0"><Label Target="{Binding ElementName=PoolInput}" Foreground="{StaticResource Muted}" Content="VRAM (MiB)" Padding="0,0,0,6"/><TextBox x:Name="PoolInput" Text="64" AutomationProperties.AutomationId="PoolMiB"/></StackPanel>
+                        <StackPanel Width="115" Margin="0,0,18,0"><Label Target="{Binding ElementName=SamplesInput}" Foreground="{StaticResource Muted}" Content="Örnek sayısı" Padding="0,0,0,6"/><TextBox x:Name="SamplesInput" Text="2000"/></StackPanel>
+                        <StackPanel Width="125" Margin="0,0,22,0"><Label Target="{Binding ElementName=GapInput}" Foreground="{StaticResource Muted}" Content="İstek aralığı (ms)" Padding="0,0,0,6"/><TextBox x:Name="GapInput" Text="0"/></StackPanel>
+                        <Button x:Name="RunButton" Content="Ölçümü başlat" VerticalAlignment="Bottom" Click="Run_Click" Background="#215D86" AutomationProperties.AutomationId="RunBenchmark"/>
+                        <Button x:Name="CancelButton" Content="İptal" IsEnabled="False" VerticalAlignment="Bottom" Margin="10,0,0,0" Click="Cancel_Click"/>
+                        <Button x:Name="ExportButton" Content="JSON dışa aktar" IsEnabled="False" VerticalAlignment="Bottom" Margin="10,0,0,0" Click="Export_Click"/>
+                    </WrapPanel>
+                    <DockPanel Margin="0,14,0,0"><CheckBox x:Name="DiskCheck" Content="Disk ile karşılaştır" Margin="0,0,16,0" VerticalAlignment="Center"/><TextBox x:Name="DiskDirectory" AutomationProperties.Name="Geçici disk karşılaştırma klasörü" IsEnabled="{Binding IsChecked, ElementName=DiskCheck}"/></DockPanel>
+                    <TextBlock Text="Bu klasörde yeni bir 64 MiB test dosyası oluşturulur ve silinir. Oyun içindeyken test ek GPU/I/O yükü oluşturur." Foreground="{StaticResource Muted}" FontSize="11" Margin="0,9,0,0" TextWrapping="Wrap"/>
+                </StackPanel></Border>
+                <DataGrid Grid.Row="2" x:Name="ResultsGrid" AutomationProperties.Name="4 KiB gecikme sonuçları"><DataGrid.Columns>
+                    <DataGridTextColumn Header="Yol / işlem" Binding="{Binding Label}" Width="*"/><DataGridTextColumn Header="p50 µs" Binding="{Binding P50}" Width="100"/>
+                    <DataGridTextColumn Header="p95 µs" Binding="{Binding P95}" Width="100"/><DataGridTextColumn Header="p99 µs" Binding="{Binding P99}" Width="100"/><DataGridTextColumn Header="En yüksek µs" Binding="{Binding Max}" Width="120"/>
+                </DataGrid.Columns></DataGrid>
+                <StackPanel Grid.Row="3" Margin="0,15,0,0">
+                    <ProgressBar x:Name="RunProgress" Height="5" Minimum="0" Maximum="100" Background="#223147" Foreground="#65B8FF" BorderThickness="0"/>
+                    <TextBlock x:Name="RunStatus" Text="Hazır · Test belleği işlem sonunda bırakılır." Foreground="#BFCDE0" Margin="0,10,0,0" TextWrapping="Wrap"/>
+                    <TextBlock Text="Page-fault veya FPS testi değildir. WDDM yerleşikliği garanti edilmez. VRAM yazması uçucu; disk yazması write-through'dur." TextWrapping="Wrap" Foreground="{StaticResource Muted}" FontSize="11" Margin="0,8,0,0"/>
+                </StackPanel>
+            </Grid></TabItem>
+        </TabControl>
+        <TextBlock Grid.Row="3" x:Name="Footer" Text="Salt okunur izleme · Sürücü, pagefile ve uygulama ayarları değiştirilmez." Foreground="#8395AD" FontSize="11" Margin="0,18,0,0"/>
+    </Grid>
+</Window>

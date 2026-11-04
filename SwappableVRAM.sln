@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{53194021-C473-48C9-87A1-1B08E5DD9F91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwappableVRAM.Core", "src\SwappableVRAM.Core\SwappableVRAM.Core.csproj", "{94FA3050-3361-4618-888B-99CBD43A6C20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwappableVRAM.App", "src\SwappableVRAM.App\SwappableVRAM.App.csproj", "{C32725FC-1968-4430-AC9D-571629697FCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwappableVRAM.Diagnostics", "src\SwappableVRAM.Diagnostics\SwappableVRAM.Diagnostics.csproj", "{9B67780B-0944-4E12-8DCA-6C6805345E6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94FA3050-3361-4618-888B-99CBD43A6C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94FA3050-3361-4618-888B-99CBD43A6C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94FA3050-3361-4618-888B-99CBD43A6C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94FA3050-3361-4618-888B-99CBD43A6C20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C32725FC-1968-4430-AC9D-571629697FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C32725FC-1968-4430-AC9D-571629697FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C32725FC-1968-4430-AC9D-571629697FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C32725FC-1968-4430-AC9D-571629697FCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B67780B-0944-4E12-8DCA-6C6805345E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B67780B-0944-4E12-8DCA-6C6805345E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B67780B-0944-4E12-8DCA-6C6805345E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B67780B-0944-4E12-8DCA-6C6805345E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{94FA3050-3361-4618-888B-99CBD43A6C20} = {53194021-C473-48C9-87A1-1B08E5DD9F91}
+		{C32725FC-1968-4430-AC9D-571629697FCC} = {53194021-C473-48C9-87A1-1B08E5DD9F91}
+		{9B67780B-0944-4E12-8DCA-6C6805345E6E} = {53194021-C473-48C9-87A1-1B08E5DD9F91}
+	EndGlobalSection
+EndGlobal
