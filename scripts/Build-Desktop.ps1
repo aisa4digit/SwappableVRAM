@@ -10,6 +10,7 @@ $brokerTarget=Join-Path $workspace 'artifacts\broker-native'
 if ($LASTEXITCODE -ne 0) { throw 'Interactive Rust broker build failed' }
 Copy-Item -LiteralPath (Join-Path $brokerTarget 'release\svram.exe') -Destination (Join-Path $output 'SwappableVRAM.Broker.exe') -Force
 Copy-Item -LiteralPath (Join-Path $workspace 'README.md') -Destination $output -Force
+Copy-Item -LiteralPath (Join-Path $workspace 'LICENSE') -Destination $output -Force
 Copy-Item -LiteralPath (Join-Path $workspace 'THIRD_PARTY_NOTICES.md') -Destination $output -Force
 $licenses=Join-Path $workspace 'third_party\rust-licenses'
 foreach ($source in @($licenses,(Join-Path $workspace 'docs'))) {

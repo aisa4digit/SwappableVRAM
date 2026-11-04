@@ -1,5 +1,9 @@
 # Upstream attribution
 
+Original SwappableVRAM project code is copyright (c) 2026 aisa4digit and is
+licensed under the root `LICENSE` (MIT). That license does not replace the
+component-specific third-party licenses listed below.
+
 `drivers/kmdf/control.c` follows the control-device sideband pattern from Microsoft's Windows Driver Samples / Toaster (`general/toaster/toastDrv/kmdf/filter/sideband/filter.c`). Copyright (c) Microsoft Corporation. That file's adaptation and source distribution retain the Microsoft Public License (MS-PL), whose full text is in `third_party/driver-samples/LICENSE-MS-PL.txt`. Reference: https://github.com/microsoft/Windows-driver-samples/blob/main/general/toaster/toastDrv/kmdf/filter/sideband/filter.c . The earlier raw-PDO experiment was replaced. This component notice does not assign a license to unrelated original project files.
 
 The optional Rust `wddm` feature uses Microsoft's `windows` / windows-rs 0.62.2 bindings and their locked dependencies. Original license texts, including the Unicode data license, are retained under `third_party/rust-licenses`; `scripts/Export-RustLicenses.ps1` refreshes them from Cargo package metadata. These bindings are not required by the default minimal WinPE storage CLI.
